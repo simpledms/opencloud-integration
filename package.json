@@ -1,0 +1,34 @@
+{
+  "name": "web-app-simpledms-integration",
+  "version": "1.0.0",
+  "description": "SimpleDMS integration for OpenCloud Web",
+  "license": "AGPL-3.0-only",
+  "author": "Marco Beierer",
+  "homepage": "https://simpledms.eu",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm vite build",
+    "check:types": "vue-tsc --noEmit",
+    "format:check": "prettier . --check",
+    "format:write": "prettier . --write",
+    "lint": "eslint 'src/**/*.{js,ts,vue}' 'tests/**/*.ts' --color",
+    "test:unit": "NODE_OPTIONS=--unhandled-rejections=throw vitest --run"
+  },
+  "devDependencies": {
+    "@opencloud-eu/eslint-config": "^7.0.0",
+    "@opencloud-eu/extension-sdk": "^7.0.0",
+    "@opencloud-eu/prettier-config": "^7.0.0",
+    "@opencloud-eu/tsconfig": "^7.0.0",
+    "@opencloud-eu/web-pkg": "^7.0.0",
+    "eslint": "^10.0.0",
+    "happy-dom": "^20.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^6.0.0",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.0",
+    "vue": "^3.5.13",
+    "vue-tsc": "^3.0.0",
+    "vue3-gettext": "^4.0.0-beta.1"
+  },
+  "packageManager": "pnpm@11.1.3"
+}

@@ -1,0 +1,20 @@
+{
+  "de": {
+    "SimpleDMS integration": "SimpleDMS-Integration",
+    "Upload to SimpleDMS": "Zu SimpleDMS hochladen",
+    "Preparing upload to SimpleDMS...": "Upload zu SimpleDMS wird vorbereitet...",
+    "Upload to SimpleDMS failed": "Upload zu SimpleDMS fehlgeschlagen"
+  },
+  "fr": {
+    "SimpleDMS integration": "Intégration SimpleDMS",
+    "Upload to SimpleDMS": "Téléverser vers SimpleDMS",
+    "Preparing upload to SimpleDMS...": "Préparation du téléversement vers SimpleDMS...",
+    "Upload to SimpleDMS failed": "Échec du téléversement vers SimpleDMS"
+  },
+  "it": {
+    "SimpleDMS integration": "Integrazione SimpleDMS",
+    "Upload to SimpleDMS": "Carica su SimpleDMS",
+    "Preparing upload to SimpleDMS...": "Preparazione del caricamento su SimpleDMS...",
+    "Upload to SimpleDMS failed": "Caricamento su SimpleDMS non riuscito"
+  }
+}
