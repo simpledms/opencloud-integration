@@ -9,46 +9,46 @@ importers:
   .:
     devDependencies:
       '@opencloud-eu/eslint-config':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0(@typescript-eslint/eslint-plugin@8.70.0(@typescript-eslint/parser@8.70.0(eslint@10.10.0(jiti@2.7.0))(typescript@6.0.3))(eslint@10.10.0(jiti@2.7.0))(typescript@6.0.3))(eslint@10.10.0(jiti@2.7.0))(vue-eslint-parser@10.4.1(eslint@10.10.0(jiti@2.7.0)))
       '@opencloud-eu/extension-sdk':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0(node-fetch@3.3.2)(typescript@6.0.3)(vite@8.3.0(@types/node@26.5.1)(jiti@2.7.0))(vitest@4.1.11(@types/node@26.5.1)(happy-dom@20.14.5)(vite@8.3.0(@types/node@26.5.1)(jiti@2.7.0)))(vue-tsc@3.3.11(typescript@6.0.3))(vue@3.5.42(typescript@6.0.3))
       '@opencloud-eu/prettier-config':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0(prettier@3.9.6)
       '@opencloud-eu/tsconfig':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0
       '@opencloud-eu/web-pkg':
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0(@floating-ui/dom@1.8.0)(@tiptap/extension-code-block@3.31.3(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3))(@tiptap/extension-list@3.31.3(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3))(@tiptap/extensions@3.31.3(@tiptap/core@3.31.3(@tiptap/pm@3.31.3))(@tiptap/pm@3.31.3))(@vue/compiler-sfc@3.5.42)(@vue/devtools-api@8.2.1)(prosemirror-model@1.25.11)(prosemirror-state@1.4.4)(prosemirror-view@1.42.3)(rolldown@1.2.8)(typescript@6.0.3)(vite@8.3.0(@types/node@26.5.1)(jiti@2.7.0))(vue@3.5.42(typescript@6.0.3))
       eslint:
-        specifier: ^10.0.0
+        specifier: ^10.10.0
         version: 10.10.0(jiti@2.7.0)
       happy-dom:
-        specifier: ^20.0.0
+        specifier: ^20.14.5
         version: 20.14.5
       prettier:
-        specifier: ^3.5.3
+        specifier: ^3.9.6
         version: 3.9.6
       typescript:
-        specifier: ^6.0.0
+        specifier: ^6.0.3
         version: 6.0.3
       vite:
-        specifier: ^8.0.0
+        specifier: ^8.3.0
         version: 8.3.0(@types/node@26.5.1)(jiti@2.7.0)
       vitest:
-        specifier: ^4.0.0
+        specifier: ^4.1.11
         version: 4.1.11(@types/node@26.5.1)(happy-dom@20.14.5)(vite@8.3.0(@types/node@26.5.1)(jiti@2.7.0))
       vue:
-        specifier: ^3.5.13
+        specifier: ^3.5.42
         version: 3.5.42(typescript@6.0.3)
       vue-tsc:
-        specifier: ^3.0.0
+        specifier: ^3.3.11
         version: 3.3.11(typescript@6.0.3)
       vue3-gettext:
-        specifier: ^4.0.0-beta.1
+        specifier: ^4.0.1
         version: 4.0.1(vue@3.5.42(typescript@6.0.3))
 
 packages:
@@ -1139,11 +1139,11 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  brace-expansion@2.1.4:
-    resolution: {integrity: sha512-hGfVzPxthbf3+2yjg/RBs60cB0FhqBS/zvdV/4wn4/BmN0bNMMHPc4V/BbFieqf1TKAGGAHnY4eSjajCl0f2Xg==}
+  brace-expansion@2.1.7:
+    resolution: {integrity: sha512-uZbew1NqdmPDTMJ8ah1y+b+9QEJrfkXFk3RcTQw3X0jW/xRUvFKsg1CfQdSYGdTbXZWExtU3J3ccxtnfw1Fi0g==}
 
-  brace-expansion@5.0.9:
-    resolution: {integrity: sha512-ScQ4IuvIEF1TMlP7Zt+vjJ//9zlPb2SDcxWxM3bk8s6t6GGdJ7KO1dCcTidOPJKePW30LE/2cT7wCyPho9/Wxg==}
+  brace-expansion@5.0.12:
+    resolution: {integrity: sha512-YovQ3rzhaLMIrDjNDMkNS01tea93qhEhG5xy8f6+R0l+dw3Ki+5sCoIoI942iuLZTHWogWktgwVDhU09iNEimQ==}
     engines: {node: 20 || >=22}
 
   buffer-from@1.1.2:
@@ -3971,11 +3971,11 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  brace-expansion@2.1.4:
+  brace-expansion@2.1.7:
     dependencies:
       balanced-match: 1.0.2
 
-  brace-expansion@5.0.9:
+  brace-expansion@5.0.12:
     dependencies:
       balanced-match: 4.0.4
 
@@ -4675,11 +4675,11 @@ snapshots:
 
   minimatch@10.2.6:
     dependencies:
-      brace-expansion: 5.0.9
+      brace-expansion: 5.0.12
 
   minimatch@9.0.9:
     dependencies:
-      brace-expansion: 2.1.4
+      brace-expansion: 2.1.7
 
   minipass@7.1.3: {}
 
