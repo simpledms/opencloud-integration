@@ -3,3 +3,7 @@ node_modules/
 coverage/
 .__mf__temp/
 src/config.json
+.playwright-cli/
+backend/data/
+backend/*.sqlite*
+backend/integration

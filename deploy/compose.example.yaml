@@ -1,0 +1,24 @@
+# Merge into your existing OpenCloud Compose project. Copy the built Web app
+# into ./apps/simpledms-integration and merge deploy/proxy.yaml into proxy.yaml.
+services:
+  opencloud:
+    environment:
+      WEB_ASSET_APPS_PATH: /web/apps
+    volumes:
+      - ./apps/simpledms-integration:/web/apps/simpledms-integration:ro
+      - ./apps.yaml:/etc/opencloud/apps.yaml:ro
+      - ./proxy.yaml:/etc/opencloud/proxy.yaml:ro
+
+  simpledms-integration:
+    build:
+      context: /path/to/opencloud-integration
+    environment:
+      OPENCLOUD_URL: https://cloud.example.com
+      INTEGRATION_PUBLIC_ORIGIN: https://cloud.example.com
+      # Optional: connect internally, preserving the public Host and TLS name.
+      # OPENCLOUD_CONNECT_ADDRESS: opencloud:9200
+      # OPENCLOUD_CA_FILE: /certificates/opencloud-ca.crt
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped

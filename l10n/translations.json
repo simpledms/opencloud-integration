@@ -3,18 +3,21 @@
     "SimpleDMS integration": "SimpleDMS-Integration",
     "Upload to SimpleDMS": "Zu SimpleDMS hochladen",
     "Preparing upload to SimpleDMS...": "Upload zu SimpleDMS wird vorbereitet...",
-    "Upload to SimpleDMS failed": "Upload zu SimpleDMS fehlgeschlagen"
+    "Upload to SimpleDMS failed": "Upload zu SimpleDMS fehlgeschlagen",
+    "Could not prepare the file. Check your session and file permissions, then try again.": "Die Datei konnte nicht vorbereitet werden. Prüfen Sie Ihre Sitzung und Dateiberechtigungen und versuchen Sie es erneut."
   },
   "fr": {
     "SimpleDMS integration": "Intégration SimpleDMS",
     "Upload to SimpleDMS": "Téléverser vers SimpleDMS",
     "Preparing upload to SimpleDMS...": "Préparation du téléversement vers SimpleDMS...",
-    "Upload to SimpleDMS failed": "Échec du téléversement vers SimpleDMS"
+    "Upload to SimpleDMS failed": "Échec du téléversement vers SimpleDMS",
+    "Could not prepare the file. Check your session and file permissions, then try again.": "Impossible de préparer le fichier. Vérifiez votre session et les autorisations du fichier, puis réessayez."
   },
   "it": {
     "SimpleDMS integration": "Integrazione SimpleDMS",
     "Upload to SimpleDMS": "Carica su SimpleDMS",
     "Preparing upload to SimpleDMS...": "Preparazione del caricamento su SimpleDMS...",
-    "Upload to SimpleDMS failed": "Caricamento su SimpleDMS non riuscito"
+    "Upload to SimpleDMS failed": "Caricamento su SimpleDMS non riuscito",
+    "Could not prepare the file. Check your session and file permissions, then try again.": "Impossibile preparare il file. Verifica la sessione e le autorizzazioni del file, quindi riprova."
   }
 }
