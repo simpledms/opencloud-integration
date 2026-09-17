@@ -19,6 +19,8 @@ The action is available for one downloadable file at a time. It is hidden for fo
 
 Tokens expire after ten minutes and are consumed when the first GET starts. A second GET fails, including after a failed or interrupted first transfer. Start a new export to retry. HEAD, PUT, and DELETE are rejected without consuming the token. Already downloaded bytes cannot be revoked.
 
+See the [integration flow](docs/integration-flow.md) for the interaction between the Web extension, companion, OpenCloud APIs, and SimpleDMS.
+
 ## Build
 
 ```sh

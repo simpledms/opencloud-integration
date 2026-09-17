@@ -13,5 +13,6 @@ approaches are summarized within each decision.
 
 Supporting documents:
 
+- [Integration flow and OpenCloud API requests](../integration-flow.md)
 - [Audit findings and evidence](../file-handoff-security.md)
 - [Deployment guide](../companion-deployment.md)
