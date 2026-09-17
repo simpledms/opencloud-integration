@@ -4,7 +4,7 @@ This OpenCloud Web extension and companion backend add an **Upload to SimpleDMS*
 
 ## Supported versions
 
-- OpenCloud: 7.5.0 and up
+- OpenCloud: 7.2.4 and up
 - SimpleDMS: 1.16.0 and up
 
 ## How it works
