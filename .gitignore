@@ -4,3 +4,4 @@ coverage/
 .__mf__temp/
 src/config.json
 .playwright-cli/
+simpledms-integration.zip

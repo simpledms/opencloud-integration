@@ -77,7 +77,8 @@ links into one-request capabilities.
 
 ## Operational requirements
 
-- Use HTTPS for both public origins and normal certificate verification.
+- Use HTTPS for both public origins and normal certificate verification, subject
+  to the [development-mode loopback exception](#development-mode-loopback-tls).
 - Set exactly the same integration password in OpenCloud and SimpleDMS. It must
   satisfy the active OpenCloud public-link password policy, including any
   configured length, character-class, and banned-password requirements;
@@ -87,6 +88,24 @@ links into one-request capabilities.
 - Ensure SimpleDMS reaches the configured public OpenCloud origin directly.
 - Rotate the integration password in both systems if it is disclosed beyond the
   expected browser exposure.
+
+## Development-mode loopback TLS
+
+When SimpleDMS runs with `-dev`, its URL downloader skips TLS certificate-chain
+and hostname verification for HTTPS URLs whose hostname is `localhost` or a
+literal loopback IP address, such as `127.0.0.1` or `[::1]`. For example,
+`SIMPLEDMS_OPENCLOUD_ORIGIN=https://localhost:9200` can use an untrusted self-signed
+certificate in this mode. The download remains encrypted, but the server's
+certificate identity is not checked. SimpleDMS emits no warning for this bypass.
+
+Other hostnames retain normal TLS verification, even in development mode and
+even if DNS resolves them to a loopback address. Without `-dev`, loopback imports
+are blocked. Development mode also permits HTTP for loopback imports, while
+private and link-local destination addresses remain blocked.
+
+This exception applies to the server-side download. It does not change browser
+certificate checks or trust settings. Inside a container, `localhost` refers to
+that container.
 
 Frontend dependency advisories remain a separate SDK/tooling concern; passing
 the application tests does not resolve them.

@@ -28,9 +28,10 @@ OpenCloud Web extension deletes the permission
 
 ## 1. Create the temporary view link
 
-The extension action is available only to an authenticated user selecting one
-downloadable, non-vault file outside a public-link context. It calls the
-authenticated Graph client for the selected drive and item:
+The extension action is available in the file context menu and the sidebar's
+**Actions** tab. It is available only to an authenticated user selecting one
+downloadable, non-vault file outside a public-link context. Both entry points call
+the authenticated Graph client for the selected drive and item:
 
 ```text
 createLink({
@@ -82,8 +83,11 @@ and repeats URL validation before downloading:
   `/remote.php/dav/public-files/{token}/{nonempty-file-path}`;
 - the token may contain only letters, digits, `_`, and `-`;
 - redirects and ambient HTTP proxy settings are disabled for this source; and
-- resolved loopback, private, link-local, multicast, and configured metadata
-  addresses are rejected outside loopback development.
+- resolved loopback addresses are rejected unless SimpleDMS runs with `-dev`;
+  private, link-local, multicast, and configured metadata addresses remain blocked.
+
+HTTPS downloads use normal TLS verification except for the
+[development-mode loopback TLS exception](file-handoff-security.md#development-mode-loopback-tls).
 
 SimpleDMS then sends a GET with `Authorization: Basic` for username `public` and
 `SIMPLEDMS_OPENCLOUD_PUBLIC_LINK_PASSWORD`. OpenCloud independently validates

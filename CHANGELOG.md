@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add the export action to the file sidebar's Actions tab.
+- Package the compiled extension as `simpledms-integration.zip` for GitHub releases.
+- Require SimpleDMS 1.17.0.
 - Replace broad signed download URLs with password-protected, view-only OpenCloud public links.
 - Restrict OpenCloud imports in SimpleDMS to the configured origin and public-WebDAV path.
 - Revoke link permissions after SimpleDMS stages the file, with end-of-day expiration as fallback.

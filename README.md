@@ -1,17 +1,19 @@
 # SimpleDMS OpenCloud Integration
 
 This OpenCloud Web extension adds an **Export to SimpleDMS** action to the file
-context menu. It uses password-protected, read-only OpenCloud public links and
-does not require a separately deployed companion service.
+context menu and the **Actions** tab in the file sidebar. It uses
+password-protected, read-only OpenCloud public links and does not require a
+separately deployed companion service.
 
 ## Supported versions
 
 - OpenCloud: 7.2.4 and up
-- SimpleDMS: a version containing the OpenCloud public-link importer
+- SimpleDMS: 1.17.0 and up
 
 ## How it works
 
-1. A signed-in user selects one downloadable file.
+1. A signed-in user selects one downloadable file and chooses **Export to
+   SimpleDMS** from its context menu or the sidebar's **Actions** tab.
 2. The extension creates an OpenCloud `view` link protected by the configured
    shared password and an end-of-day expiration.
 3. The extension opens SimpleDMS's `/open-file/from-url` confirmation page with
@@ -37,6 +39,11 @@ pnpm build
 
 The installable Web application is generated in `dist/`.
 
+To create the release asset locally, run `pnpm package:release` (requires `zip`).
+This builds the extension and creates `simpledms-integration.zip`, with
+`manifest.json` and the compiled assets at the archive root. Publishing a GitHub
+release runs the release workflow and attaches this ZIP to that release.
+
 ## Install
 
 1. Generate a strong password for this integration.
@@ -61,6 +68,9 @@ commonly used or banned passwords. A value rejected by that policy makes Graph
 `createLink` return HTTP 400. Configure the exact same accepted value in
 SimpleDMS and the OpenCloud Web application.
 
+Restart SimpleDMS after applying these environment variables. With Docker
+Compose, recreate its container so it receives the new values.
+
 3. Configure the OpenCloud Web application in `$OC_CONFIG_DIR/apps.yaml` with
    the same password:
 
@@ -71,8 +81,12 @@ simpledms-integration:
     opencloudPublicLinkPassword: '<same-policy-compliant-password>'
 ```
 
-4. Copy the contents of `dist/` to
-   `$OC_DATA_DIR/web/assets/apps/simpledms-integration` and reload OpenCloud Web.
+4. Download [simpledms-integration.zip](https://github.com/simpledms/opencloud-integration/releases/latest/download/simpledms-integration.zip)
+   from the [GitHub releases](https://github.com/simpledms/opencloud-integration/releases/latest).
+   Extract it into `$OC_DATA_DIR/web/assets/apps/simpledms-integration`, so
+   `manifest.json` is directly inside that directory. Restart OpenCloud to load
+   the extension manifest and configuration, then reload OpenCloud Web.
+   Use the compiled release asset, not GitHub's automatically generated source ZIP.
 
 With `opencloud-compose`, use
 `opencloud-compose/config/opencloud/apps/simpledms-integration` for the app and
@@ -80,7 +94,8 @@ With `opencloud-compose`, use
 
 Both origins must use HTTPS. HTTP is accepted only for loopback development.
 The SimpleDMS backend must be able to resolve and reach the configured OpenCloud
-public origin with a trusted certificate.
+public origin with a trusted certificate, except for the
+[development-mode loopback TLS exception](docs/file-handoff-security.md#development-mode-loopback-tls).
 
 The OpenCloud application configuration is delivered to browser code and must
 not be treated as a server-only secret. The password is an additional barrier
@@ -88,6 +103,10 @@ for temporary read-only links; security also depends on unguessable share tokens
 strict SimpleDMS URL validation, view-only permissions, expiration, and revocation.
 
 ## Development configuration
+
+Loopback imports require SimpleDMS to run with `-dev`. Before using a self-signed
+OpenCloud certificate locally, read the
+[development-mode loopback TLS exception](docs/file-handoff-security.md#development-mode-loopback-tls).
 
 For local extension development, create `src/config.json` (ignored by Git):
 

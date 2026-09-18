@@ -8,6 +8,7 @@
   "type": "module",
   "scripts": {
     "build": "pnpm vite build",
+    "package:release": "pnpm build && node scripts/package-release.mjs",
     "check:types": "vue-tsc --noEmit",
     "format:check": "prettier . --check",
     "format:write": "prettier . --write",

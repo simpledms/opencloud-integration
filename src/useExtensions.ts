@@ -178,7 +178,7 @@ export const useExtensions = ({ applicationConfig }: ApplicationSetupOptions) =>
     {
       id: 'eu.simpledms.opencloud.upload',
       type: 'action',
-      extensionPointIds: ['global.files.context-actions'],
+      extensionPointIds: ['global.files.context-actions', 'app.files.sidebar.actions'],
       action: unref(action)
     }
   ])
