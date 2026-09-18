@@ -28,15 +28,6 @@ export const normalizeSimpleDmsBaseUrl = (value: unknown): string | null => {
   return null
 }
 
-export const buildSimpleDmsImportUrl = (baseUrl: string, downloadUrl: string): string => {
-  const parsedDownloadUrl = new URL(downloadUrl)
-  if (!['http:', 'https:'].includes(parsedDownloadUrl.protocol)) {
-    throw new Error('OpenCloud returned an unsupported download URL.')
-  }
-
-  return `${baseUrl}/open-file/from-url?url=${encodeURIComponent(downloadUrl)}`
-}
-
 export const buildOpenCloudPublicDownloadUrl = (
   shareUrl: string,
   fileName: string,

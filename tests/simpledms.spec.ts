@@ -1,6 +1,5 @@
 import {
   buildOpenCloudPublicDownloadUrl,
-  buildSimpleDmsImportUrl,
   buildSimpleDmsOpenCloudImportUrl,
   normalizeSimpleDmsBaseUrl
 } from '../src/simpledms'
@@ -29,22 +28,6 @@ describe('normalizeSimpleDmsBaseUrl', () => {
     'https://simpledms.example.com#settings'
   ])('rejects the invalid or insecure URL %s', (url) => {
     expect(normalizeSimpleDmsBaseUrl(url)).toBeNull()
-  })
-})
-
-describe('buildSimpleDmsImportUrl', () => {
-  it('uses the same from-url endpoint as the Nextcloud integration', () => {
-    const downloadUrl = 'https://cloud.example.com/data/file.pdf?signature=a+b&expires=123'
-
-    expect(buildSimpleDmsImportUrl('https://simpledms.example.com', downloadUrl)).toBe(
-      `https://simpledms.example.com/open-file/from-url?url=${encodeURIComponent(downloadUrl)}`
-    )
-  })
-
-  it('rejects non-HTTP download URLs', () => {
-    expect(() =>
-      buildSimpleDmsImportUrl('https://simpledms.example.com', 'file:///tmp/private.pdf')
-    ).toThrow('OpenCloud returned an unsupported download URL.')
   })
 })
 
