@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Show specific, translated guidance for recognized export and import failures.
 - Add the export action to the file sidebar's Actions tab.
 - Package the compiled extension as `simpledms-integration.zip` for GitHub releases.
 - Require SimpleDMS 1.17.0.

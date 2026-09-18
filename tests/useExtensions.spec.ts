@@ -170,6 +170,143 @@ describe('useExtensions', () => {
     expect(showErrorMessage.mock.calls[0][0].errors[0].message).not.toContain('upstream-secret-url')
   })
 
+  it.each([
+    'at least 12 characters are required',
+    'at least 1 lowercase letters are required\nat least 1 uppercase letters are required',
+    'at least 1 numbers are required',
+    'at least 1 special characters are required',
+    'at least 1 uppercase letters are required',
+    'password protection is enforced',
+    'the password contains invalid characters',
+    'unfortunately, your password is commonly used. Choose another password.'
+  ])(
+    'maps OpenCloud password policy failure %s without exposing upstream details',
+    async (message) => {
+      const opened = {
+        closed: false,
+        close: vi.fn(),
+        opener: window,
+        location: { replace: vi.fn() }
+      }
+      vi.mocked(window.open).mockReturnValue(opened as never)
+      const secret = `raw-${message}-https://cloud.example/private?password=secret request-id-123`
+      createLink.mockRejectedValue({
+        code: 'ERR_BAD_REQUEST',
+        config: { url: secret, password: 'secret' },
+        response: {
+          status: 400,
+          headers: { 'x-request-id': 'request-id-123' },
+          data: { error: { message } }
+        }
+      })
+
+      await getAction().handler({ space, resources: [resource()] } as never)
+
+      expect(opened.close).toHaveBeenCalled()
+      expect(opened.location?.replace).not.toHaveBeenCalled()
+      expect(deletePermission).not.toHaveBeenCalled()
+      const displayed = showErrorMessage.mock.calls[0][0].errors[0].message
+      expect(displayed).toBe(
+        "The integration password does not meet OpenCloud's password requirements. Ask your administrator to update it."
+      )
+      expect(displayed).not.toContain(secret)
+      expect(displayed).not.toContain('request-id-123')
+    }
+  )
+
+  it.each([
+    [
+      400,
+      'arbitrary upstream validation failure',
+      'OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.'
+    ],
+    [
+      400,
+      'no share permission',
+      'You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.'
+    ],
+    [
+      400,
+      'insufficient permissions to create that kind of share',
+      'You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.'
+    ],
+    [
+      401,
+      'session secret',
+      'Your OpenCloud session is no longer valid. Sign in again and retry the export.'
+    ],
+    [
+      403,
+      'forbidden secret',
+      'You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.'
+    ],
+    [
+      404,
+      'missing secret',
+      'The file is no longer available. Refresh OpenCloud and select the file again.'
+    ],
+    [
+      410,
+      'expired secret',
+      'The file is no longer available. Refresh OpenCloud and select the file again.'
+    ],
+    [
+      429,
+      'rate limit secret',
+      'OpenCloud is receiving too many requests. Wait a moment and try again.'
+    ],
+    [500, 'server secret', 'OpenCloud could not prepare the export right now. Try again later.']
+  ])('maps SDK status %s to a safe message', async (status, upstreamMessage, expected) => {
+    createLink.mockRejectedValue({
+      response: {
+        status,
+        data: { error: { message: upstreamMessage } },
+        config: { url: 'https://secret.example' }
+      }
+    })
+    await getAction().handler({ space, resources: [resource()] } as never)
+    const displayed = showErrorMessage.mock.calls[0][0].errors[0].message
+    expect(displayed).toBe(expected)
+    expect(displayed).not.toContain(upstreamMessage)
+    expect(displayed).not.toContain('secret.example')
+  })
+
+  it('uses the configuration message for a malformed upstream error message', async () => {
+    createLink.mockRejectedValue({
+      response: {
+        status: 400,
+        data: { error: { message: { secret: 'must-not-leak' } } },
+        config: { url: 'https://secret.example' }
+      }
+    })
+
+    await getAction().handler({ space, resources: [resource()] } as never)
+
+    const displayed = showErrorMessage.mock.calls[0][0].errors[0].message
+    expect(displayed).toBe(
+      'OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.'
+    )
+    expect(displayed).not.toContain('must-not-leak')
+    expect(displayed).not.toContain('secret.example')
+  })
+
+  it.each([
+    [{ code: 'ECONNABORTED' }, 'OpenCloud took too long to respond. Try again.'],
+    [{ code: 'ETIMEDOUT' }, 'OpenCloud took too long to respond. Try again.'],
+    [{ code: 'ERR_NETWORK' }, 'Could not reach OpenCloud. Check your connection and try again.'],
+    [null, 'Could not prepare the file. Check your session and file permissions, then try again.'],
+    [
+      { response: { data: null } },
+      'Could not prepare the file. Check your session and file permissions, then try again.'
+    ]
+  ])('uses a safe fallback for malformed or transport failure %j', async (failure, expected) => {
+    createLink.mockRejectedValue(failure)
+    await expect(
+      getAction().handler({ space, resources: [resource()] } as never)
+    ).resolves.toBeUndefined()
+    expect(showErrorMessage.mock.calls[0][0].errors[0].message).toBe(expected)
+  })
+
   it('rechecks visibility in the handler', async () => {
     await getAction().handler({
       space,

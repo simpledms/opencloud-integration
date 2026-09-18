@@ -5,7 +5,16 @@
     "Preparing export to SimpleDMS...": "Export nach SimpleDMS wird vorbereitet...",
     "Export to SimpleDMS failed": "Export nach SimpleDMS fehlgeschlagen",
     "SimpleDMS export": "SimpleDMS-Export",
-    "Could not prepare the file. Check your session and file permissions, then try again.": "Die Datei konnte nicht vorbereitet werden. Prüfen Sie Ihre Sitzung und Dateiberechtigungen und versuchen Sie es erneut."
+    "The integration password does not meet OpenCloud's password requirements. Ask your administrator to update it.": "Das Integrationspasswort erfüllt die Passwortanforderungen von OpenCloud nicht. Bitte deine Administration, es zu aktualisieren.",
+    "OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.": "OpenCloud hat die Freigabeeinstellungen abgelehnt. Bitte deine Administration, die Integrationskonfiguration zu prüfen.",
+    "Your OpenCloud session is no longer valid. Sign in again and retry the export.": "Deine OpenCloud-Session ist nicht mehr gültig. Melde dich erneut an und starte den Export noch einmal.",
+    "You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.": "Du darfst für diese Datei keinen öffentlichen Freigabelink erstellen. Bitte die Person, der die Datei gehört, oder deine Administration um Zugriff.",
+    "The file is no longer available. Refresh OpenCloud and select the file again.": "Die Datei ist nicht mehr verfügbar. Lade OpenCloud neu und wähle die Datei erneut aus.",
+    "OpenCloud is receiving too many requests. Wait a moment and try again.": "OpenCloud erhält zu viele Anfragen. Warte einen Moment und versuche es erneut.",
+    "OpenCloud could not prepare the export right now. Try again later.": "OpenCloud konnte den Export gerade nicht vorbereiten. Versuche es später erneut.",
+    "OpenCloud took too long to respond. Try again.": "OpenCloud hat nicht rechtzeitig geantwortet. Versuche es erneut.",
+    "Could not reach OpenCloud. Check your connection and try again.": "OpenCloud konnte nicht erreicht werden. Prüfe deine Verbindung und versuche es erneut.",
+    "Could not prepare the file. Check your session and file permissions, then try again.": "Die Datei konnte nicht vorbereitet werden. Prüfe deine Session und Dateiberechtigungen und versuche es erneut."
   },
   "fr": {
     "SimpleDMS integration": "Intégration SimpleDMS",
@@ -13,6 +22,15 @@
     "Preparing export to SimpleDMS...": "Préparation de l’export vers SimpleDMS...",
     "Export to SimpleDMS failed": "Échec de l’export vers SimpleDMS",
     "SimpleDMS export": "Export SimpleDMS",
+    "The integration password does not meet OpenCloud's password requirements. Ask your administrator to update it.": "Le mot de passe de l'intégration ne respecte pas les exigences d'OpenCloud. Demandez à votre équipe d'administration de le mettre à jour.",
+    "OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.": "OpenCloud a refusé les paramètres de partage. Demandez à votre équipe d'administration de vérifier la configuration de l'intégration.",
+    "Your OpenCloud session is no longer valid. Sign in again and retry the export.": "Votre session OpenCloud n'est plus valide. Reconnectez-vous et relancez l'export.",
+    "You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.": "Vous ne pouvez pas créer de lien public pour ce fichier. Demandez l'accès à la personne propriétaire du fichier ou à votre équipe d'administration.",
+    "The file is no longer available. Refresh OpenCloud and select the file again.": "Le fichier n'est plus disponible. Actualisez OpenCloud et sélectionnez à nouveau le fichier.",
+    "OpenCloud is receiving too many requests. Wait a moment and try again.": "OpenCloud reçoit trop de requêtes. Patientez un instant et réessayez.",
+    "OpenCloud could not prepare the export right now. Try again later.": "OpenCloud n'a pas pu préparer l'export pour le moment. Réessayez plus tard.",
+    "OpenCloud took too long to respond. Try again.": "OpenCloud a mis trop de temps à répondre. Réessayez.",
+    "Could not reach OpenCloud. Check your connection and try again.": "Impossible de joindre OpenCloud. Vérifiez votre connexion et réessayez.",
     "Could not prepare the file. Check your session and file permissions, then try again.": "Impossible de préparer le fichier. Vérifiez votre session et les autorisations du fichier, puis réessayez."
   },
   "it": {
@@ -21,6 +39,15 @@
     "Preparing export to SimpleDMS...": "Preparazione dell'esportazione in SimpleDMS...",
     "Export to SimpleDMS failed": "Esportazione in SimpleDMS non riuscita",
     "SimpleDMS export": "Esportazione SimpleDMS",
+    "The integration password does not meet OpenCloud's password requirements. Ask your administrator to update it.": "La password dell'integrazione non soddisfa i requisiti di OpenCloud. Chiedi al team di amministrazione di aggiornarla.",
+    "OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.": "OpenCloud ha rifiutato le impostazioni di condivisione. Chiedi al team di amministrazione di verificare la configurazione dell'integrazione.",
+    "Your OpenCloud session is no longer valid. Sign in again and retry the export.": "La tua sessione OpenCloud non è più valida. Accedi di nuovo e riprova l'esportazione.",
+    "You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.": "Non puoi creare un link pubblico per questo file. Chiedi l'accesso alla persona proprietaria del file o al team di amministrazione.",
+    "The file is no longer available. Refresh OpenCloud and select the file again.": "Il file non è più disponibile. Ricarica OpenCloud e seleziona di nuovo il file.",
+    "OpenCloud is receiving too many requests. Wait a moment and try again.": "OpenCloud sta ricevendo troppe richieste. Attendi un momento e riprova.",
+    "OpenCloud could not prepare the export right now. Try again later.": "OpenCloud non ha potuto preparare l'esportazione al momento. Riprova più tardi.",
+    "OpenCloud took too long to respond. Try again.": "OpenCloud ha impiegato troppo tempo a rispondere. Riprova.",
+    "Could not reach OpenCloud. Check your connection and try again.": "Impossibile raggiungere OpenCloud. Verifica la connessione e riprova.",
     "Could not prepare the file. Check your session and file permissions, then try again.": "Impossibile preparare il file. Verifica la sessione e le autorizzazioni del file, quindi riprova."
   }
 }

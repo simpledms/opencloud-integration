@@ -65,11 +65,11 @@ interactive handoff. Already transferred bytes cannot be revoked.
 
 The share token, permission ID, and display-only source path travel in a URL and
 can appear in browser history or full-URL logs. They should not be logged
-deliberately. SimpleDMS uses
-generic client-facing download errors. Its server logs distinguish configuration,
-TLS/network, authentication, authorization, expiry, redirect, and rate-limit
-failures without logging the public-link URL, token, password, or authorization
-header.
+deliberately. The extension and SimpleDMS show translated guidance for recognized
+failures, such as password-policy rejection, missing permissions, expired links,
+connection problems, and rate limits. Unknown failures retain a generic fallback.
+Server logs provide further diagnostics for configuration, TLS/network,
+authentication, authorization, expiry, redirect, and rate-limit failures.
 
 This design trusts SimpleDMS with the downloaded document and trusts its backend
 to protect the configured shared password. It does not turn OpenCloud public

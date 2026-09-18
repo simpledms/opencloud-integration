@@ -43,6 +43,69 @@ export const useExtensions = ({ applicationConfig }: ApplicationSetupOptions) =>
       ? applicationConfig.opencloudPublicLinkPassword
       : ''
 
+  const exportFailureMessage = (error: unknown): string => {
+    const failure = error as {
+      code?: string
+      response?: { status?: number; data?: { error?: { message?: unknown } } }
+    } | null
+    const status = failure?.response?.status
+    const upstreamMessage = failure?.response?.data?.error?.message
+    const message = typeof upstreamMessage === 'string' ? upstreamMessage.toLowerCase() : ''
+
+    if (status === 400) {
+      if (
+        message === 'password protection is enforced' ||
+        message === 'the password contains invalid characters' ||
+        message.startsWith('unfortunately, your password is commonly used.') ||
+        /(?:^|\n)at least \d+ (?:characters|lowercase letters|uppercase letters|numbers|special characters) are required(?:$|[ \n])/.test(
+          message
+        )
+      ) {
+        return $gettext(
+          "The integration password does not meet OpenCloud's password requirements. Ask your administrator to update it."
+        )
+      }
+      if (
+        message !== 'no share permission' &&
+        message !== 'insufficient permissions to create that kind of share'
+      ) {
+        return $gettext(
+          'OpenCloud rejected the sharing settings. Ask your administrator to check the integration configuration.'
+        )
+      }
+    }
+    if (status === 401) {
+      return $gettext(
+        'Your OpenCloud session is no longer valid. Sign in again and retry the export.'
+      )
+    }
+    if (status === 403 || status === 400) {
+      return $gettext(
+        'You are not allowed to create a public link for this file. Ask the file owner or your administrator for access.'
+      )
+    }
+    if (status === 404 || status === 410) {
+      return $gettext(
+        'The file is no longer available. Refresh OpenCloud and select the file again.'
+      )
+    }
+    if (status === 429) {
+      return $gettext('OpenCloud is receiving too many requests. Wait a moment and try again.')
+    }
+    if (typeof status === 'number' && status >= 500 && status <= 599) {
+      return $gettext('OpenCloud could not prepare the export right now. Try again later.')
+    }
+    if (failure?.code === 'ECONNABORTED' || failure?.code === 'ETIMEDOUT') {
+      return $gettext('OpenCloud took too long to respond. Try again.')
+    }
+    if (failure?.code === 'ERR_NETWORK') {
+      return $gettext('Could not reach OpenCloud. Check your connection and try again.')
+    }
+    return $gettext(
+      'Could not prepare the file. Check your session and file permissions, then try again.'
+    )
+  }
+
   const isVisible = ({ space, resources }: FileActionOptions) => {
     const resource = resources?.[0]
     return Boolean(
@@ -162,13 +225,7 @@ export const useExtensions = ({ applicationConfig }: ApplicationSetupOptions) =>
         openedWindow?.close()
         showErrorMessage({
           title: $gettext('Export to SimpleDMS failed'),
-          errors: [
-            new Error(
-              $gettext(
-                'Could not prepare the file. Check your session and file permissions, then try again.'
-              )
-            )
-          ]
+          errors: [new Error(exportFailureMessage(error))]
         })
       }
     }
