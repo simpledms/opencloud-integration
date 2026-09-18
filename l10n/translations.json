@@ -1,23 +1,26 @@
 {
   "de": {
     "SimpleDMS integration": "SimpleDMS-Integration",
-    "Upload to SimpleDMS": "Zu SimpleDMS hochladen",
-    "Preparing upload to SimpleDMS...": "Upload zu SimpleDMS wird vorbereitet...",
-    "Upload to SimpleDMS failed": "Upload zu SimpleDMS fehlgeschlagen",
+    "Export to SimpleDMS": "Nach SimpleDMS exportieren",
+    "Preparing export to SimpleDMS...": "Export nach SimpleDMS wird vorbereitet...",
+    "Export to SimpleDMS failed": "Export nach SimpleDMS fehlgeschlagen",
+    "SimpleDMS export": "SimpleDMS-Export",
     "Could not prepare the file. Check your session and file permissions, then try again.": "Die Datei konnte nicht vorbereitet werden. Prüfen Sie Ihre Sitzung und Dateiberechtigungen und versuchen Sie es erneut."
   },
   "fr": {
     "SimpleDMS integration": "Intégration SimpleDMS",
-    "Upload to SimpleDMS": "Téléverser vers SimpleDMS",
-    "Preparing upload to SimpleDMS...": "Préparation du téléversement vers SimpleDMS...",
-    "Upload to SimpleDMS failed": "Échec du téléversement vers SimpleDMS",
+    "Export to SimpleDMS": "Exporter vers SimpleDMS",
+    "Preparing export to SimpleDMS...": "Préparation de l’export vers SimpleDMS...",
+    "Export to SimpleDMS failed": "Échec de l’export vers SimpleDMS",
+    "SimpleDMS export": "Export SimpleDMS",
     "Could not prepare the file. Check your session and file permissions, then try again.": "Impossible de préparer le fichier. Vérifiez votre session et les autorisations du fichier, puis réessayez."
   },
   "it": {
     "SimpleDMS integration": "Integrazione SimpleDMS",
-    "Upload to SimpleDMS": "Carica su SimpleDMS",
-    "Preparing upload to SimpleDMS...": "Preparazione del caricamento su SimpleDMS...",
-    "Upload to SimpleDMS failed": "Caricamento su SimpleDMS non riuscito",
+    "Export to SimpleDMS": "Esporta in SimpleDMS",
+    "Preparing export to SimpleDMS...": "Preparazione dell'esportazione in SimpleDMS...",
+    "Export to SimpleDMS failed": "Esportazione in SimpleDMS non riuscita",
+    "SimpleDMS export": "Esportazione SimpleDMS",
     "Could not prepare the file. Check your session and file permissions, then try again.": "Impossibile preparare il file. Verifica la sessione e le autorizzazioni del file, quindi riprova."
   }
 }

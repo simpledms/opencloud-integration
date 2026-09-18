@@ -10,9 +10,13 @@ approaches are summarized within each decision.
 - [0004: Read-only, expiring, single-use tokens](0004-read-only-single-use-tokens.md)
 - [0005: Bounded in-memory tokens and one instance](0005-bounded-in-memory-token-storage.md)
 - [0006: Same-origin deployment and verified TLS](0006-same-origin-deployment-and-tls.md)
+- [0007: Protected public-link handoff](0007-public-link-handoff.md)
+
+ADRs 0002 through 0006 describe the removed companion design and are superseded
+by ADR 0007.
 
 Supporting documents:
 
 - [Integration flow and OpenCloud API requests](../integration-flow.md)
+- [Alternative approaches and tradeoffs](../integration-alternatives.md)
 - [Audit findings and evidence](../file-handoff-security.md)
-- [Deployment guide](../companion-deployment.md)

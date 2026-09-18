@@ -1,6 +1,10 @@
 # ADR 0006: Same-origin deployment and verified TLS
 
-**Status:** Accepted
+**Date:** 2026-09-18
+
+**Status:** superseded
+
+**Superseded by:** [ADR 0007](0007-public-link-handoff.md)
 
 ## Context
 

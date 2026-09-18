@@ -1,144 +1,110 @@
-# OpenCloud–SimpleDMS integration flow
+# OpenCloud-SimpleDMS integration flow
 
-The integration has two components: a Web extension loaded by OpenCloud and a
-companion backend running alongside it. OpenCloud remains responsible for users,
-file storage, and permissions. The companion provides restricted, one-time
-download access for SimpleDMS.
+OpenCloud remains responsible for user authorization, source storage, and link
+permissions. SimpleDMS performs the server-to-server download from OpenCloud's
+public WebDAV endpoint. No integration-specific backend runs between them.
 
 ```text
 OpenCloud Web extension
-    │ 1. File ID + user's access token
-    ▼
-Companion backend ── 2. Validate user and resolve file ──► OpenCloud
-    │
-    └── 3. Return a one-time companion URL to the extension
-                         │
-                         └── Open SimpleDMS import in the browser
-                                      │
-                                      │ 4. GET one-time URL after confirmation
-                                      ▼
-                               Companion backend ── GET source file ──► OpenCloud
-                                      │
-                                      └── Stream file bytes ──► SimpleDMS
+    | 1. Authenticated Graph createLink(type=view, password, expiration)
+    v
+OpenCloud
+    | 2. Return permission ID and /s/{token} URL
+    v
+OpenCloud Web extension
+    | 3. Open SimpleDMS /open-file/from-url with public DAV URL
+    v
+SimpleDMS
+    | 4. Validate exact OpenCloud origin/path and GET with shared password
+    v
+OpenCloud public WebDAV
+    | 5. Stream file bytes
+    v
+SimpleDMS stages the file
+    | 6. postMessage(permission ID) to the originating window
+    v
+OpenCloud Web extension deletes the permission
 ```
 
-## 1. The user starts an export
+## 1. Create the temporary view link
 
-The user selects **Upload to SimpleDMS** in the OpenCloud file context menu.
-The extension sends the selected file's ID and the user's current OAuth access
-token to the companion:
-
-```http
-POST /apps/simpledms_integration/api/create-signed-url
-Authorization: Bearer <user-access-token>
-Content-Type: application/json
-
-{"fileId":"<OpenCloud-resource-ID>"}
-```
-
-The request uses OpenCloud's existing HTTPS origin. OpenCloud's proxy routes
-the integration path to the companion, which independently authenticates
-issuance. The caller supplies a file ID, not an arbitrary download URL.
-
-## 2. The companion checks access with OpenCloud
-
-The companion uses ordinary HTTPS requests to OpenCloud's Graph and WebDAV APIs.
-Both requests carry the user's bearer token. It needs no administrator account,
-direct filesystem access, database access, or private RPC interface.
-
-### Validate the user through the Graph API
-
-```http
-GET /graph/v1.0/me
-Authorization: Bearer <user-access-token>
-```
-
-OpenCloud validates the access token and returns the user's identity. The
-companion requires a successful response containing a user ID, which it also
-uses to enforce the per-user pending-token limit.
-
-### Resolve the selected file through WebDAV
-
-```http
-PROPFIND /remote.php/dav/spaces/{fileId}
-Authorization: Bearer <user-access-token>
-Depth: 0
-Content-Type: application/xml
-
-<?xml version="1.0"?>
-<d:propfind xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
-  <d:prop>
-    <d:resourcetype/>
-    <d:getcontentlength/>
-    <oc:permissions/>
-    <oc:downloadURL/>
-  </d:prop>
-</d:propfind>
-```
-
-`{fileId}` is validated and URL-escaped by the companion. `Depth: 0` requests
-only the selected resource, not a directory listing. OpenCloud authorizes the
-request using the user's permissions.
-
-The companion expects a `207 Multi-Status` response and reads successful
-properties for exactly one resource:
-
-| Property               | Use                                                     |
-| ---------------------- | ------------------------------------------------------- |
-| `DAV:resourcetype`     | Reject folders.                                         |
-| `DAV:getcontentlength` | Require valid, nonnegative file-size metadata.          |
-| `oc:permissions`       | Reject secure-view files marked with `X`.               |
-| `oc:downloadURL`       | Obtain OpenCloud's signed URL for the later source GET. |
-
-Missing required metadata is rejected. The download URL must use the configured
-OpenCloud origin and regular-file DAV endpoint, with a signed-URL parameter.
-Public-share URLs and other origins are rejected; redirects are not followed.
-
-**The upstream signed URL stays inside the companion.** The user's access token
-is used only for these authorization requests and is not retained with the export.
-The implementation is in [`userID()` and `file()`](../backend/opencloud.go).
-
-## 3. The companion returns a one-time URL
-
-After authorization, the companion generates a random token. It keeps the token
-hash, owner, expiry, filename, and upstream download reference in bounded memory.
-It returns `downloadUrl` and `expiresAt` to the extension. The URL points to:
+The extension action is available only to an authenticated user selecting one
+downloadable, non-vault file outside a public-link context. It calls the
+authenticated Graph client for the selected drive and item:
 
 ```text
-https://<opencloud-origin>/apps/simpledms_integration/download/<opaque-token>
+createLink({
+  type: "view",
+  password: <configured shared password>,
+  displayName: "SimpleDMS export",
+  expirationDateTime: <near-future timestamp>
+})
 ```
 
-The extension validates this response and opens SimpleDMS at:
+OpenCloud applies view-only permissions. Its public-link expiration has day
+granularity, so the supplied timestamp becomes an end-of-day fallback rather
+than a precise fifteen-minute lifetime.
+
+The extension accepts only a returned URL on its own origin with the exact
+`/s/{token}` shape. It converts that URL to:
 
 ```text
-https://<simpledms-origin>/open-file/from-url?url=<encoded-companion-URL>
+https://<opencloud-origin>/remote.php/dav/public-files/<token>/<filename>
 ```
 
-This is the same SimpleDMS entrypoint used by the Nextcloud integration.
+## 2. Open the SimpleDMS confirmation page
 
-## 4. SimpleDMS downloads through the companion
+The extension opens:
 
-After the user confirms the URL, the SimpleDMS backend fetches it without an
-OpenCloud session. The opaque token grants access to that download.
+```text
+https://<simpledms-origin>/open-file/from-url
+  ?url=<encoded-public-WebDAV-URL>
+  &source=opencloud
+  &callback_origin=<OpenCloud-origin>
+  &permission_id=<Graph-permission-ID>
+  &file_path=<display-only-OpenCloud-path>
+```
 
-The companion atomically checks expiry and consumes the token, then releases
-the store lock. It performs a GET against the private upstream signed URL and
-streams the response to SimpleDMS as a non-cacheable attachment. It does not
-redirect SimpleDMS to OpenCloud or expose the upstream credential. OpenCloud
-handles authorization of the source GET too.
+The password is not included in this URL. The share token and permission ID can
+appear in browser history and HTTP request logs and must still be treated as
+temporary capabilities. The selected file path is included only so SimpleDMS
+can show the filename and OpenCloud location on the confirmation screen; it is
+never used to select or authorize the download.
 
-Tokens last at most ten minutes and are consumed when downloading starts, even
-if the transfer subsequently fails. Reuse returns 404; write methods are rejected.
-The source file is not deleted or modified.
+## 3. Validate and stage in SimpleDMS
 
-Restarting the companion clears pending tokens, requiring a new export. Completed
-imports and original OpenCloud files remain unaffected.
+SimpleDMS applies source-specific checks before displaying the confirmation page
+and repeats URL validation before downloading:
+
+- the origin must exactly match `SIMPLEDMS_OPENCLOUD_ORIGIN`;
+- the URL must have no credentials, query, or fragment;
+- the path must match
+  `/remote.php/dav/public-files/{token}/{nonempty-file-path}`;
+- the token may contain only letters, digits, `_`, and `-`;
+- redirects and ambient HTTP proxy settings are disabled for this source; and
+- resolved loopback, private, link-local, multicast, and configured metadata
+  addresses are rejected outside loopback development.
+
+SimpleDMS then sends a GET with `Authorization: Basic` for username `public` and
+`SIMPLEDMS_OPENCLOUD_PUBLIC_LINK_PASSWORD`. OpenCloud independently validates
+the token, password, expiry, and view permission before returning bytes.
+
+## 4. Revoke after staging
+
+After SimpleDMS has staged the temporary upload, the confirmation window sends a
+`simpledms:opencloud-import-staged` message containing the permission ID to its
+opener. Both sides validate the configured origin. The extension additionally
+checks the message source and expected permission ID before calling Graph
+`deletePermission` for the selected drive and item.
+
+Revocation is best effort. A browser crash, blocked popup, same-tab fallback,
+lost callback, or failed Graph deletion can leave the view link usable until
+OpenCloud's end-of-day expiration. Already downloaded bytes cannot be revoked.
 
 ## Related documents and code
 
-- [Deployment and configuration](companion-deployment.md)
-- [Security findings and verification](file-handoff-security.md)
+- [Security findings and current controls](file-handoff-security.md)
+- [Alternative approaches and tradeoffs](integration-alternatives.md)
 - [Architecture decisions](adr/README.md)
 - [Web action](../src/useExtensions.ts)
-- [Companion HTTP handlers](../backend/server.go)
-- [In-memory token store](../backend/store.go)
+- [URL construction](../src/simpledms.ts)

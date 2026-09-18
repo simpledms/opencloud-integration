@@ -1,6 +1,10 @@
 # ADR 0005: Bounded in-memory tokens and one instance
 
-**Status:** Accepted
+**Date:** 2026-09-18
+
+**Status:** superseded
+
+**Superseded by:** [ADR 0007](0007-public-link-handoff.md)
 
 ## Context
 

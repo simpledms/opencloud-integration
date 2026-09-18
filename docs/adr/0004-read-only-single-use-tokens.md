@@ -1,6 +1,10 @@
 # ADR 0004: Read-only, expiring, single-use tokens
 
-**Status:** Accepted
+**Date:** 2026-09-18
+
+**Status:** superseded
+
+**Superseded by:** [ADR 0007](0007-public-link-handoff.md)
 
 ## Context
 

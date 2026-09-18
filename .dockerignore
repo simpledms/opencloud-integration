@@ -1,5 +1,0 @@
-*
-!backend/
-!backend/*.go
-!backend/go.mod
-!Dockerfile

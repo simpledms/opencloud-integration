@@ -36,3 +36,50 @@ export const buildSimpleDmsImportUrl = (baseUrl: string, downloadUrl: string): s
 
   return `${baseUrl}/open-file/from-url?url=${encodeURIComponent(downloadUrl)}`
 }
+
+export const buildOpenCloudPublicDownloadUrl = (
+  shareUrl: string,
+  fileName: string,
+  openCloudOrigin: string
+): string => {
+  const share = new URL(shareUrl)
+  const origin = new URL(openCloudOrigin)
+  const match = share.pathname.match(/^\/s\/([^/]+)\/?$/)
+
+  if (
+    share.origin !== origin.origin ||
+    share.username ||
+    share.password ||
+    share.search ||
+    share.hash ||
+    !match ||
+    !fileName
+  ) {
+    throw new Error('OpenCloud returned an invalid public link.')
+  }
+
+  const token = decodeURIComponent(match[1])
+  if (!/^[A-Za-z0-9_-]+$/.test(token)) {
+    throw new Error('OpenCloud returned an invalid public link token.')
+  }
+
+  return `${origin.origin}/remote.php/dav/public-files/${encodeURIComponent(token)}/${encodeURIComponent(fileName)}`
+}
+
+export const buildSimpleDmsOpenCloudImportUrl = (
+  baseUrl: string,
+  downloadUrl: string,
+  callbackOrigin: string,
+  permissionId: string,
+  filePath: string
+): string => {
+  const target = new URL(`${baseUrl}/open-file/from-url`)
+  target.searchParams.set('url', downloadUrl)
+  target.searchParams.set('source', 'opencloud')
+  target.searchParams.set('callback_origin', callbackOrigin)
+  target.searchParams.set('permission_id', permissionId)
+  if (filePath) {
+    target.searchParams.set('file_path', filePath)
+  }
+  return target.href
+}
