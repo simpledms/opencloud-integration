@@ -25,9 +25,11 @@ separately deployed companion service.
    The extension then deletes the link permission. Expiration is the fallback if
    the callback or deletion fails.
 
-The action is hidden for folders, secure-view files, public-link contexts,
-encrypted vault files, and incomplete configuration. See the
-[integration flow](docs/integration-flow.md) and
+The action is hidden for folders, files that cannot be downloaded, public-link
+contexts, encrypted vault files, and incomplete configuration. See the
+[user guide](https://simpledms.eu/en/resources/documentation/opencloud-integration),
+[admin guide](https://simpledms.eu/en/resources/technical-documentation/opencloud-integration),
+[integration flow](docs/integration-flow.md), and
 [security notes](docs/file-handoff-security.md) for details.
 
 ## Build
